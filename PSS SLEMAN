@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSS Sleman - Tribute</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #050505; font-family: 'Georgia', serif; color: white; margin: 0; overflow-x: hidden; }
+    .slider-container { display: flex; width: 300vw; transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
+    .slide {
+      width: 100vw; min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 6rem 1.5rem 8rem; box-sizing: border-box;
+      background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+    }
+    .elegant-card {
+      background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(15px); max-width: 850px; width: 100%; padding: 2rem;
+      border-radius: 1rem; box-shadow: 0 25px 60px rgba(0,0,0,0.9); height: auto;
+    }
+    .nav-tools { position: fixed; top: 20px; left: 20px; display: flex; gap: 8px; z-index: 1000; }
+    .btn-action { 
+      background: rgba(0,0,0,0.7); border: 1px solid rgba(212, 175, 55, 0.5); 
+      color: #d4af37; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem;
+      font-weight: bold; transition: all 0.3s ease; backdrop-filter: blur(5px);
+    }
+    .btn-action.active { background: #d4af37; color: #000; border-color: #d4af37; }
+    .hero-title h1 {
+      font-size: 2.5rem; font-weight: 800; letter-spacing: 2px; color: #d4af37;
+      text-transform: uppercase; line-height: 1.1; text-align: center;
+    }
+    @media (min-width: 768px) { .elegant-card { padding: 4rem; } .hero-title h1 { font-size: 3.5rem; letter-spacing: 4px; } }
+    .hero-title span { display: block; font-size: 0.8rem; letter-spacing: 4px; color: #ffffff; opacity: 0.6; margin-top: 10px; text-transform: uppercase; text-align: center; }
+    .title-divider { width: 50px; height: 3px; background: #d4af37; margin: 15px auto 30px; }
+    .bottom-nav {
+      position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+      z-index: 1000; display: flex; gap: 20px; background: rgba(0,0,0,0.85);
+      padding: 12px 25px; border-radius: 30px; border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .slide-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #d4af37; cursor: pointer; }
+    .slide-dot.active { background: #d4af37; transform: scale(1.3); }
+    p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; color: #e5e5e5; text-align: justify; }
+    @media (min-width: 768px) { p { font-size: 1.15rem; line-height: 2; } }
+    strong { color: #d4af37; }
+    .golden-text { color: #d4af37; }
+  </style>
+</head>
+<body>
+
+  <div class="nav-tools">
+    <button onclick="changeLang('id')" id="btn-id" class="btn-action active">ID</button>
+    <button onclick="changeLang('en')" id="btn-en" class="btn-action">EN</button>
+  </div>
+
+  <div class="slider-container" id="mainSlider">
+    <section class="slide">
+      <div class="elegant-card">
+        <div class="hero-title">
+          <h1 id="h-title-text">90+3</h1>
+          <span id="h-subtitle-text">Flashback Juara 2018</span>
+          <div class="title-divider"></div>
+        </div>
+        <div id="h-content"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="elegant-card">
+        <div class="hero-title">
+          <h1 style="font-size: 2rem;" id="t1-title-text">The Last Line</h1>
+          <span id="t1-subtitle-text">Kesetiaan & Kebanggaan</span>
+          <div class="title-divider"></div>
+        </div>
+        <div id="t1-content"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="elegant-card">
+        <div class="hero-title">
+          <h1 style="font-size: 2rem;" id="t2-title-text">In Memoriam</h1>
+          <span id="t2-subtitle-text">Menolak Lupa</span>
+          <div class="title-divider"></div>
+        </div>
+        <div id="t2-opening" class="mb-8 italic text-center text-lg opacity-90"></div>
+        <div style="border-top: 1px solid rgba(212, 175, 55, 0.3); border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 1.5rem 0; margin-bottom: 2rem;">
+          <p id="t2-names" class="font-bold text-center text-xl golden-text tracking-wide m-0"></p>
+        </div>
+        <div id="t2-prayer" class="text-center italic opacity-90"></div>
+        <p id="t2-kanjuruhan" class="text-center text-sm text-gray-400 italic mt-6"></p>
+      </div>
+    </section>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="slide-dot active" onclick="goToSlide(0)" id="dot0"></div>
+    <div class="slide-dot" onclick="goToSlide(1)" id="dot1"></div>
+    <div class="slide-dot" onclick="goToSlide(2)" id="dot2"></div>
+  </div>
+
+  <script>
+    let currentLang = 'id';
+
+    const translations = {
+      id: {
+        h_title: "90+3", h_subtitle: "Flashback Juara 2018",
+        h_content: `
+          <p>Kebodohan federasi kala 2013 masih sangat membekas bagi pecinta kulit bundar negeri ini. Dualisme yang ada dalam tubuh PSSI kala itu menjadi aib yang dipertontonoan secara telanjang kepada seluruh penggila sepakbola di Indonesia, bahkan dunia. Di Jogja bagian utara, tepatnya di bawah kaki gunung Merapi, seluruh lapisan masyarakatnya sedang tergila-gila dengan tim sepakbola yang ada di sana, <strong>Perserikatan Sepakbola Sleman</strong> namanya.</p>
+          <p>Kala 2013, PSS berkancah di Divisi Utama LPIS, nama-nama seperti Aji Saka, Anang Hadi, hingga Kristian Adelmund sedang dalam top performanya. Mereka bersama 8 pemain lainnya turut bergotong royong membawa PSS melaju hingga laga final yang bertemu dengan Lampung FC. Skor kala itu berakhir 2-1 untuk kemenangan PSS Sleman. 2 gol dicetak oleh Agung Suprayogi dan Wahyu Gunawan. Gelar juara yang diraih anak-anak asuhan Lafran Pribadi membangkitkan kembali gairah sepakbola Kabupaten Sleman yang sempat redup pada tahun-tahun sebelumnya.</p>
+          <p><strong>“Mangan ra kolu, adus ra teles”</strong>, kalimat itu menggambarkan kondisi PSS saat juara di tahun tersebut. Bagaimana tidak, walaupun mereka juara, mereka tidak naik kasta karena kompetisi yang diikuti bukan kompetisi resmi dari PSSI. Pahit!</p>
+          <p>Beranjak 1 tahun setelahnya, kondisi sepakbola Sleman semakin rumit. “Sudah jatuh tertimpa tangga.” PSS dibekukan oleh PSSI karena melakoni “sepakbola gajah” ketika melawan PSIS Semarang. Konflik yang tak berkesudahan itu membuat PSS berada di fase yang abu-abu selama 1 musim penuh.</p>
+          <p>Setelah berbagai kegagalan dan tagar <strong>#KenyataanJauhDariImpian</strong> sempat trending, PSS berupaya bangkit di 2018 dengan skuad mewah: Gonzales, Amarzukih, dan Rangga Muslim. Puncaknya pada 3 Desember 2018 melawan Semen Padang di Final. Skor akhir 2-0 yang dicetak oleh “El Loco” dan Rival Lastori mengunci gelar juara. Tersimpan dengan rapi di benak ingatan, laga tersebut diakhiri saat tambahan waktu penuh <strong>90+3</strong>.</p>
+          <p class="text-center golden-text font-bold mt-4 italic">Semoga musim ini kita mengulang kembali kejayaan itu ya, Man.</p>
+        `,
+        t1_title: "The Last Line", t1_subtitle: "Kesetiaan & Kebanggaan",
+        t1_content: `
+          <p class="italic">Sepakbola. Iya, sepakbola namanya. Olahraga yang kian hari kian banyak orang yang jatuh cinta dengannya. Omong-omong tentang sepakbola, ada suatu komponen penting yang selalu menjadi denyut nadi bagi sebuah tim. Entah berada di belakang gawang yang dijaga oleh sang kiper atau di belakang garis sisi lapangan, pasti selalu ada segelintir kelompok pecinta tim yang tak pernah lelah untuk bersorak lantang ketika timnya berlaga. Mereka ini selalu menemani setiap perjuangan tim yang dicintainya. Mereka juga yang selalu menguatkan kaki-kaki para penggawanya saat melemah.</p>
+          <p>Sebut saja “mereka” ini adalah kami. Kami yang selalu hadir menemani perjuangan kalian di lapangan. Ketika otot kaki-kaki kalian terasa melelahkan, kalian masih mendapatkan bayaran. Tapi tidak dengan kami, kehadiran kami di tribun bukan berkeinginan mendapatkan bayaran dari kalian, yang kami inginkan hanyalah kemenangan yang diraih oleh kalian demi nama <strong>PSS Sleman</strong>.</p>
+          <p>Bicara lebih luasnya, kami ini bukan sekedar penonton biasa yang hanya menikmati sebuah pertandingan. Bagi kami, PSS Sleman adalah makna dari sebuah kehidupan. Iya, kehidupan yang akan terasa semakin indah jika dibersamai dengan cinta. Cinta kepada PSS Sleman.</p>
+          <p>Percayalah, Man, kami selalu menjadikan tim ini sebagai arah untuk pulang. Tim yang kami nanti-nantikan secercah cahayanya sembari mengistirahatkan tubuh dari penatnya dunia yang semakin mengeras. Man, sekedar melihatmu menang adalah sebuah kebahagiaan yang kami nantikan.</p>
+          <p>Sejak dari dulu, para pendahulu kami mewariskan sebuah ikatan. Ikatan antara kami dan kalian. <span class="golden-text font-bold">Wahai Super Elja, kamilah sayap-sayapmu!</span> Man, takkan kubiarkan kalian berjuang sendirian. Begitu juga kalian, jangan biarkan harapan kami yang kian membesar hanya melahirkan sebuah kekecewaan. Man, ingat selalu ya, bagi kami, kalian adalah sebuah kebanggaan yang tak pernah pudar dan selalu berkobar.</p>
+          <p class="text-center golden-text font-bold text-xl my-4 italic">Bagimu Sleman jiwa raga kami</p>
+          <p class="italic opacity-80 text-center">Niscaya, sekalipun keras gelombang menghantam bukanlah sebuah penghalang.</p>
+        `,
+        t2_title: "In Memoriam", t2_subtitle: "Menolak Lupa",
+        t2_opening: "Semoga aku, kamu, dan kita senantiasa mengingat mereka yang lebih dahulu pergi sebagai bagian dari penyemangat kehidupan agar kita tetap kuat berdiri di sini.",
+        t2_names: "Stanislaus Gandhang Deswara, Assadullah Al Khairi, Muhammad Iqbal, Tri Fajar Firmansyah, Aditya Eka Putranda",
+        t2_prayer: "Ya Allah, ampuni-lah, rahmati-lah, bebaskan-lah, dan lepaskan-lah mereka. Muliakan-lah tempat tinggal mereka, luaskan-lah jalan masuknya, cuci-lah mereka dengan air yang jernih nan sejuk. Bersihkan-lah mereka dari segala kesalahan bagai baju putih yang bersih dari kotoran. Al-Fatihah.",
+        t2_kanjuruhan: "Serta Almarhum 135+ Tragedi Kanjuruhan."
+      },
+      en: {
+        h_title: "90+3", h_subtitle: "2018 Championship Flashback",
+        h_content: `
+          <p>The federation's incompetence in 2013 remains a deep scar for football lovers in this country. The dualism within PSSI at that time became a disgrace shown nakedly to all football enthusiasts in Indonesia, and even the world. In northern Jogja, at the foot of Mount Merapi, the community was infatuated with their team, <strong>Perserikatan Sepakbola Sleman</strong>.</p>
+          <p>In 2013, PSS competed in the LPIS Premier Division with names like Kristian Adelmund at their peak. They fought to the final against Lampung FC, winning 2-1. Goals were scored by Agung Suprayogi and Wahyu Gunawan. This title revived Sleman's football passion.</p>
+          <p><strong>"Mangan ra kolu, adus ra teles"</strong>—this phrase described the pain of winning a title that led nowhere because the competition was deemed unofficial. Bitter!</p>
+          <p>A year later, PSS was suspended due to the "Elephant Football" scandal. Endless conflict left the club in a grey phase for a full season.</p>
+          <p>After multiple failures and the hashtag <strong>#RealityFarFromDreams</strong>, PSS rose again in 2018 with a star-studded squad. The peak was the 2-0 final victory against Semen Padang on Dec 3, 2018. That historic match ended at the injury time of <strong>90+3</strong>.</p>
+          <p class="text-center golden-text font-bold mt-4 italic">May we repeat that glory this season, Man.</p>
+        `,
+        t1_title: "The Last Line", t1_subtitle: "Loyalty & Pride",
+        t1_content: `
+          <p class="italic">Football. Yes, football is its name. A sport that more people fall in love with every day. There is an essential component that is always the heartbeat of a team. Whether behind the goal or on the sidelines, there is always a group of lovers who never tire of cheering. They accompany every struggle and strengthen the players when they grow weary.</p>
+          <p>Call "them" us. We who are always present to accompany your struggle. When your legs are tired, you are still paid. But not us; we are in the stands not for payment, but for victory for <strong>PSS Sleman</strong>.</p>
+          <p>For us, PSS Sleman is the meaning of life, made more beautiful by love. Believe it, Man, we make this team our way home—a light as we rest from the harsh world. Seeing you win is the happiness we await.</p>
+          <p>Our predecessors left us a bond. <span class="golden-text font-bold">O Super Elja, we are your wings!</span> We will not let you fight alone. Do not let our growing hopes turn into disappointment. You are a pride that never fades and always burns bright.</p>
+          <p class="text-center golden-text font-bold text-xl my-4 italic">"For you Sleman, our souls and bodies"</p>
+        `,
+        t2_title: "In Memoriam", t2_subtitle: "Refusing to Forget",
+        t2_opening: "May I, you, and all of us always remember those who left us early as a source of spirit for our lives, so that we may continue to stand strong here.",
+        t2_names: "Stanislaus Gandhang Deswara, Assadullah Al Khairi, Muhammad Iqbal, Tri Fajar Firmansyah, Aditya Eka Putranda",
+        t2_prayer: "O Allah, forgive them, have mercy on them, and grant them peace. Honor their dwelling place, widen their entrance, and wash them with water that is clear and cool. Cleanse them of all faults as a white garment is cleansed of filth. Al-Fatihah.",
+        t2_kanjuruhan: "And the 135+ martyrs of the Kanjuruhan Tragedy."
+      }
+    };
+
+    function updateContent() {
+      const t = translations[currentLang];
+      document.getElementById('h-title-text').innerText = t.h_title;
+      document.getElementById('h-subtitle-text').innerText = t.h_subtitle;
+      document.getElementById('h-content').innerHTML = t.h_content;
+      document.getElementById('t1-title-text').innerText = t.t1_title;
+      document.getElementById('t1-subtitle-text').innerText = t.t1_subtitle;
+      document.getElementById('t1-content').innerHTML = t.t1_content;
+      document.getElementById('t2-title-text').innerText = t.t2_title;
+      document.getElementById('t2-subtitle-text').innerText = t.t2_subtitle;
+      document.getElementById('t2-opening').innerText = t.t2_opening;
+      document.getElementById('t2-names').innerText = t.t2_names;
+      document.getElementById('t2-prayer').innerText = t.t2_prayer;
+      document.getElementById('t2-kanjuruhan').innerText = t.t2_kanjuruhan;
+    }
+
+    function changeLang(lang) {
+      currentLang = lang;
+      document.getElementById('btn-id').classList.toggle('active', lang === 'id');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      updateContent();
+    }
+
+    function goToSlide(index) {
+      document.getElementById('mainSlider').style.transform = `translateX(-${index * 100}vw)`;
+      document.querySelectorAll('.slide-dot').forEach((dot, i) => dot.classList.toggle('active', i === index));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    updateContent();
+  </script>
+</body>
+</html>
